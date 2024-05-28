@@ -1,0 +1,144 @@
+[gd_scene load_steps=13 format=3 uid="uid://dcrq7ktpeqodl"]
+
+[ext_resource type="Script" path="res://assets/scenes/abilities/bowling_bash.gd" id="1_hrqt3"]
+[ext_resource type="PackedScene" uid="uid://cli0jbfsgeqtq" path="res://assets/scenes/components/hitbox_component.tscn" id="2_gyyns"]
+[ext_resource type="Texture2D" uid="uid://vjn7ouh3nw0e" path="res://assets/particles/smoke_01.png" id="3_vvask"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_muc5k"]
+points = PackedVector3Array(0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 3.5, 0.5, 3.5, 3.5, -0.5, 3.5, -3.5, 0.5, 3.5, -3.5, -0.5, 3.5)
+
+[sub_resource type="Animation" id="Animation_sa2me"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitboxComponent/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_gw3it"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitboxComponent/CollisionShape3D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p16gd"]
+_data = {
+"RESET": SubResource("Animation_sa2me"),
+"attack": SubResource("Animation_gw3it")
+}
+
+[sub_resource type="Curve" id="Curve_b7yl7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.337778, 0.757895), 0.0, 0.0, 0, 0, Vector2(0.746667, 0.578947), 0.0, 0.0, 0, 0, Vector2(1, 0.210526), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ejl0v"]
+curve = SubResource("Curve_b7yl7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4qjpg"]
+direction = Vector3(0, 0, 1)
+flatness = 0.7
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+angular_velocity_min = 10.0
+angular_velocity_max = 20.0
+damping_min = 20.0
+damping_max = 40.0
+angle_max = 360.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_ejl0v")
+turbulence_noise_strength = 10.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u0ara"]
+transparency = 1
+albedo_texture = ExtResource("3_vvask")
+emission_enabled = true
+emission = Color(1, 0.952941, 0.847059, 1)
+emission_energy_multiplier = 0.2
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_ujap1"]
+material = SubResource("StandardMaterial3D_u0ara")
+
+[node name="BowlingBash" type="Node3D"]
+script = ExtResource("1_hrqt3")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_gyyns")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("ConvexPolygonShape3D_muc5k")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "attack"
+libraries = {
+"": SubResource("AnimationLibrary_p16gd")
+}
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.991146, 0.132775, 0, -0.132775, 0.991146, 0, -0.350652, 0)
+emitting = false
+amount = 100
+lifetime = 0.3
+one_shot = true
+fixed_fps = 0
+process_material = SubResource("ParticleProcessMaterial_4qjpg")
+draw_pass_1 = SubResource("QuadMesh_ujap1")

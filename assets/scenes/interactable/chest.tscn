@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cehvsq1r7pkci"]
+
+[ext_resource type="Script" path="res://assets/scenes/interactable/chest.gd" id="1_a55tp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_de6my"]
+albedo_color = Color(1, 0.509804, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fv406"]
+material = SubResource("StandardMaterial3D_de6my")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lhsrk"]
+
+[node name="Chest" type="StaticBody3D" groups=["external_inventory"]]
+script = ExtResource("1_a55tp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_fv406")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_lhsrk")

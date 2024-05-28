@@ -1,0 +1,186 @@
+[gd_scene load_steps=16 format=3 uid="uid://ctkxm8t4p3tdq"]
+
+[ext_resource type="PackedScene" uid="uid://cli0jbfsgeqtq" path="res://assets/scenes/components/hitbox_component.tscn" id="1_cpt6x"]
+[ext_resource type="Script" path="res://assets/scenes/abilities/storm_gust.gd" id="1_qytni"]
+[ext_resource type="Texture2D" uid="uid://pgph7n2vcxpr" path="res://assets/particles/dirt_03.png" id="2_e70ft"]
+
+[sub_resource type="Animation" id="Animation_befal"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cloud:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxComponent/CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_nhiu8"]
+resource_name = "cast"
+length = 4.8
+step = 0.225
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cloud:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HitboxComponent/CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.225, 0.45, 0.675, 0.9, 1.125, 1.35, 1.575, 1.8, 2.025, 2.25, 2.475, 2.7, 2.925, 3.15, 3.375, 3.6, 3.825, 4.05, 4.275, 4.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4.725),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ieevk"]
+_data = {
+"RESET": SubResource("Animation_befal"),
+"cast": SubResource("Animation_nhiu8")
+}
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8my8m"]
+radius = 3.0
+
+[sub_resource type="Curve" id="Curve_gwswx"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 291.789), 0.0, 0.0, 0, 0, Vector2(0.991111, -299.368), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g3or4"]
+curve = SubResource("Curve_gwswx")
+
+[sub_resource type="Curve" id="Curve_5e4va"]
+max_value = 3.0
+_data = [Vector2(0, 2.87368), 0.0, 0.0, 0, 0, Vector2(0.8, 1.95789), 0.0, 0.0, 0, 0, Vector2(0.982222, 1.89474), 0.0, 0.0, 0, 0, Vector2(1, 0.715789), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_r5ron"]
+curve = SubResource("Curve_5e4va")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k61jd"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 3.5
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, -1, 0)
+angle_max = 348.4
+angle_curve = SubResource("CurveTexture_g3or4")
+scale_curve = SubResource("CurveTexture_r5ron")
+turbulence_enabled = true
+turbulence_noise_strength = 1.8
+turbulence_noise_scale = 3.2
+turbulence_noise_speed = Vector3(1, 0, 1)
+turbulence_influence_min = 0.01
+turbulence_initial_displacement_min = 0.1
+turbulence_initial_displacement_max = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5bho"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(0.788235, 1, 0.996078, 0.956863)
+albedo_texture = ExtResource("2_e70ft")
+metallic = 0.13
+roughness = 0.5
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_l5l7v"]
+material = SubResource("StandardMaterial3D_f5bho")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p05ho"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 0.0
+emission_ring_radius = 3.0
+emission_ring_inner_radius = 0.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, -15, 0)
+initial_velocity_max = 3.0
+angle_max = 348.4
+angle_curve = SubResource("CurveTexture_g3or4")
+scale_curve = SubResource("CurveTexture_r5ron")
+turbulence_enabled = true
+turbulence_noise_strength = 1.8
+turbulence_noise_scale = 3.2
+turbulence_noise_speed = Vector3(1, 0, 1)
+turbulence_influence_min = 0.01
+turbulence_initial_displacement_min = 0.1
+turbulence_initial_displacement_max = 0.2
+
+[node name="StormGust" type="Node3D"]
+script = ExtResource("1_qytni")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "cast"
+libraries = {
+"": SubResource("AnimationLibrary_ieevk")
+}
+
+[node name="HitboxComponent" parent="." instance=ExtResource("1_cpt6x")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent"]
+shape = SubResource("CylinderShape3D_8my8m")
+
+[node name="Cloud" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33571, 0)
+emitting = false
+amount = 100
+lifetime = 5.0
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_k61jd")
+draw_pass_1 = SubResource("QuadMesh_l5l7v")
+
+[node name="Down" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33571, 0)
+amount = 100
+lifetime = 5.0
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_p05ho")
+draw_pass_1 = SubResource("QuadMesh_l5l7v")

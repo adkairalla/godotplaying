@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ekyxs2x6uk4k"]
+
+[ext_resource type="Script" path="res://assets/scenes/UI/floating_text.gd" id="1_nnvaa"]
+
+[node name="FloatingText" type="Node3D"]
+script = ExtResource("1_nnvaa")
+
+[node name="Label3D" type="Label3D" parent="."]
+pixel_size = 0.02
+billboard = 1
+text = "pudim"

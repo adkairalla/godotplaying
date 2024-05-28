@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr55644pibj6d"]
+
+[ext_resource type="Script" path="res://assets/scenes/controllers/bowling_bash_controller.gd" id="1_b45oe"]
+
+[node name="BowlingBashController" type="Node3D"]
+script = ExtResource("1_b45oe")

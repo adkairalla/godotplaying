@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://dapa27uw42lb5"]
+
+[ext_resource type="Script" path="res://assets/scenes/components/mana_component.gd" id="1_3e1rp"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_o1usd"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vh0pb"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i2p6t"]
+bg_color = Color(0, 0, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="ManaComponent" type="Node3D"]
+script = ExtResource("1_3e1rp")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+no_depth_test = true
+texture = SubResource("ViewportTexture_o1usd")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+size = Vector2i(100, 8)
+
+[node name="ProgressBar" type="ProgressBar" parent="Sprite3D/SubViewport"]
+custom_minimum_size = Vector2(100, 8)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_vh0pb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_i2p6t")
+max_value = 1.0
+value = 0.5
+show_percentage = false

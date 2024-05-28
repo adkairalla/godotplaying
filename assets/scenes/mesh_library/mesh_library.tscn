@@ -1,0 +1,88 @@
+[gd_scene load_steps=21 format=3 uid="uid://c04ulkugcb0ty"]
+
+[ext_resource type="Texture2D" uid="uid://bg28xl27t5n03" path="res://assets/textures/wood_floor/WoodFloor007_1K-PNG_Color.png" id="1_uguui"]
+[ext_resource type="Texture2D" uid="uid://jlw2bxn6b64m" path="res://assets/textures/wood_floor/WoodFloor007_1K-PNG_AmbientOcclusion.png" id="2_ywvgy"]
+[ext_resource type="Texture2D" uid="uid://jsvcok8b1shc" path="res://assets/textures/wood_floor/WoodFloor007_1K-PNG_NormalDX.png" id="3_qbh0d"]
+[ext_resource type="Texture2D" uid="uid://vknb7mlxvei3" path="res://assets/textures/wood_floor/WoodFloor007_1K-PNG_Roughness.png" id="4_ey7tm"]
+[ext_resource type="Texture2D" uid="uid://daf4qlo0xbr3k" path="res://assets/textures/wall_tile/Tiles011_1K-PNG_Color.png" id="5_u3agg"]
+[ext_resource type="Texture2D" uid="uid://5ygxkbsc0pr7" path="res://assets/textures/wall_tile/Tiles011_1K-PNG_AmbientOcclusion.png" id="6_207as"]
+[ext_resource type="Texture2D" uid="uid://b5htx3np8mcqk" path="res://assets/textures/wall_tile/Tiles011_1K-PNG_NormalDX.png" id="7_qeke8"]
+[ext_resource type="Texture2D" uid="uid://c0jacqg1sqhnj" path="res://assets/textures/wall_tile/Tiles011_1K-PNG_Roughness.png" id="8_yqane"]
+[ext_resource type="Shader" path="res://assets/shaders/green_transparent.gdshader" id="9_kk7cu"]
+[ext_resource type="Shader" path="res://assets/shaders/blue_transparent.gdshader" id="10_3xb43"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c2g8v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_15iv3"]
+albedo_texture = ExtResource("1_uguui")
+roughness_texture = ExtResource("4_ey7tm")
+normal_enabled = true
+normal_texture = ExtResource("3_qbh0d")
+ao_enabled = true
+ao_texture = ExtResource("2_ywvgy")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_y7jfc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_efu7a"]
+margin = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yep6g"]
+albedo_texture = ExtResource("5_u3agg")
+metallic = 0.1
+roughness_texture = ExtResource("8_yqane")
+normal_enabled = true
+normal_texture = ExtResource("7_qeke8")
+ao_enabled = true
+ao_texture = ExtResource("6_207as")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_aotws"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7cdo3"]
+margin = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cd407"]
+size = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkn18"]
+render_priority = 0
+shader = ExtResource("9_kk7cu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qdbie"]
+render_priority = 0
+shader = ExtResource("10_3xb43")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_c2g8v")
+surface_material_override/0 = SubResource("StandardMaterial3D_15iv3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+physics_material_override = SubResource("PhysicsMaterial_y7jfc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_efu7a")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_c2g8v")
+surface_material_override/0 = SubResource("StandardMaterial3D_yep6g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+physics_material_override = SubResource("PhysicsMaterial_aotws")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+shape = SubResource("BoxShape3D_7cdo3")
+
+[node name="GreenMarker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+visible = false
+mesh = SubResource("PlaneMesh_cd407")
+surface_material_override/0 = SubResource("ShaderMaterial_fkn18")
+
+[node name="BlueMarker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+visible = false
+mesh = SubResource("PlaneMesh_cd407")
+surface_material_override/0 = SubResource("ShaderMaterial_qdbie")

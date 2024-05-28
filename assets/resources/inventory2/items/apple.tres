@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://cb2eka3jukxo4"]
+
+[ext_resource type="Script" path="res://assets/resources/inventory2/items/item_data.gd" id="1_ahl6b"]
+[ext_resource type="Texture2D" uid="uid://tyldsrlv14in" path="res://assets/resources/inventory2/#1 - Transparent Icons.png" id="2_aa8ph"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4n3t"]
+atlas = ExtResource("2_aa8ph")
+region = Rect2(0, 448, 32, 32)
+
+[resource]
+script = ExtResource("1_ahl6b")
+name = "apple"
+category = "consumable"
+sub_category = "food"
+stackable = true
+texture = SubResource("AtlasTexture_d4n3t")
+description = "A tasty apple"
